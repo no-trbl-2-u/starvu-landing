@@ -230,6 +230,7 @@ export default function HomePage() {
               <ApplicationForm
                 id="creator-application"
                 fields={FIELDS}
+                schedulingUrl={CALENDLY_CREATOR_URL}
                 note="You must be 18 or older. Nothing is published or shared without your written consent."
               />
             </div>

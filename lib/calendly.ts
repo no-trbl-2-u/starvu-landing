@@ -36,3 +36,22 @@ const THEME = new URLSearchParams({
 export function themed(url: string): string {
   return `${url}?${THEME}`;
 }
+
+/**
+ * Answers carried into the booking form.
+ *
+ * `a1` is Calendly's first custom question — on the live event type that is
+ * "Please share anything that will help prepare for our meeting", a free text
+ * field. The application answers beyond name and email are folded into it,
+ * because the event type has no other questions to map them onto.
+ */
+export type Prefill = { name?: string; email?: string; a1?: string };
+
+/** Adds prefill answers to a themed scheduling URL. */
+export function withPrefill(url: string, prefill: Prefill): string {
+  const params = new URLSearchParams(THEME);
+  for (const [key, value] of Object.entries(prefill)) {
+    if (value) params.set(key, value);
+  }
+  return `${url}?${params.toString()}`;
+}

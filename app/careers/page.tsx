@@ -170,6 +170,7 @@ export default function CareersPage() {
               <ApplicationForm
                 id="careers-application"
                 fields={FIELDS}
+                schedulingUrl={CALENDLY_CAREERS_URL}
                 note="You must be 18 or older. Applicants complete identity verification before hire."
               />
             </div>

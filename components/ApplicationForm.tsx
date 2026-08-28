@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import { withPrefill, type Prefill } from "@/lib/calendly";
+
 export type Field =
   | {
       kind: "text" | "email";
@@ -23,22 +25,47 @@ type Props = {
   fields: readonly Field[];
   /** Fine print rendered under the button. */
   note: string;
+  /** Scheduling URL the answers are carried into. */
+  schedulingUrl: string;
 };
+
+type CalendlyPopup = {
+  initPopupWidget?: (options: { url: string }) => void;
+};
+
+/**
+ * Folds the answers into the one free-text question the event type has.
+ *
+ * Name and email are passed separately because Calendly has dedicated fields
+ * for them, so they are skipped here to avoid asking twice.
+ */
+function summarise(fields: readonly Field[], data: FormData): Prefill {
+  const value = (name: string) => String(data.get(name) ?? "").trim();
+
+  const rest = fields
+    .filter((field) => field.name !== "name" && field.name !== "email")
+    .map((field) => [field.label, value(field.name)] as const)
+    .filter(([, answer]) => answer.length > 0)
+    .map(([label, answer]) => `${label}: ${answer}`)
+    .join("\n");
+
+  return { name: value("name"), email: value("email"), a1: rest };
+}
 
 /**
  * The creator and careers application forms.
  *
  * Real `<form>` semantics — named fields, `required`, autocomplete hints — so
- * the browser validates and autofills, and so wiring a submit target later is a
- * one-line change.
+ * the browser validates and autofills.
  *
- * TODO(#2): nothing is transmitted yet — the button only reflects the submitted
- * state, matching the design's behaviour. The site is a static export, so this
- * needs a Pages Function rather than a server action. Until then applicants only
- * reach us via the email addresses in the footer.
+ * TODO(#2): this is an interim route, not a submit target. The answers are
+ * carried into Calendly as booking prefill, so a completed booking reaches
+ * Jesse with the application attached. Anyone who fills the form and does not
+ * finish booking is still lost — closing #2 needs a Pages Function, because the
+ * site is a static export and has no server routes.
  */
-export function ApplicationForm({ id, fields, note }: Props) {
-  const [sent, setSent] = useState(false);
+export function ApplicationForm({ id, fields, note, schedulingUrl }: Props) {
+  const [redirecting, setRedirecting] = useState(false);
 
   return (
     <form
@@ -48,7 +75,22 @@ export function ApplicationForm({ id, fields, note }: Props) {
       noValidate={false}
       onSubmit={(event) => {
         event.preventDefault();
-        setSent(true);
+        const url = withPrefill(
+          schedulingUrl,
+          summarise(fields, new FormData(event.currentTarget)),
+        );
+
+        // The popup is the smoother path, but it only exists once widget.js has
+        // loaded. Navigating to the same prefilled URL is the fallback that
+        // always works, so a slow script cannot strand an applicant.
+        const calendly = (window as { Calendly?: CalendlyPopup }).Calendly;
+        if (calendly?.initPopupWidget) {
+          calendly.initPopupWidget({ url });
+          setRedirecting(false);
+        } else {
+          setRedirecting(true);
+          window.location.href = url;
+        }
       }}
     >
       {fields.map((field) => {
@@ -81,15 +123,15 @@ export function ApplicationForm({ id, fields, note }: Props) {
         );
       })}
 
-      <button type="submit" className="btn btn--primary" disabled={sent}>
-        {sent ? "Application sent" : "Send application"}
+      <button type="submit" className="btn btn--primary">
+        Continue to pick a time
       </button>
 
       <div className="formFoot">
         {/* Mounted from first render and empty until submit, so the
             confirmation is announced as a change to a watched region. */}
         <p className="formStatus" role="status">
-          {sent ? "Thanks — we reply within 24 hours." : ""}
+          {redirecting ? "Opening the calendar\u2026" : ""}
         </p>
         <p className="formNote">{note}</p>
       </div>

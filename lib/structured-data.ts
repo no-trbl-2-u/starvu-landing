@@ -1,3 +1,5 @@
+import { DURATION_MINUTES, TIMEZONE, weeklyHours } from "./availability";
+import { CALENDLY_CREATOR_URL } from "./calendly";
 import { FAQ } from "./landing";
 import { DATE_POSTED, JOBS, REQUIREMENTS, VALID_THROUGH, type Job } from "./jobs";
 import { ORG, SITE_URL, absoluteUrl } from "./site";
@@ -31,6 +33,48 @@ export const organization = {
     addressCountry: ORG.country,
   },
 } as const;
+
+/**
+ * The consultation call, with the hours it can be booked in.
+ *
+ * Google has no rich result for service availability, so this earns no snippet.
+ * It is here for answer engines and agents, which otherwise cannot tell that
+ * Starvu takes calls at all — the Calendly iframe is opaque to them.
+ */
+const consultation = {
+  "@type": "Service",
+  "@id": `${SITE_URL}/#consultation`,
+  name: "Free 1:1 consultation call",
+  description:
+    "A private consultation with a Starvu manager for creators and job applicants. No cost and no obligation.",
+  serviceType: "Consultation",
+  provider: { "@id": ORG_ID },
+  areaServed: { "@type": "Country", name: "United States" },
+  hoursAvailable: weeklyHours()
+    .filter((range) => !range.closed)
+    .flatMap((range) =>
+      range.intervals.map((interval) => ({
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: range.dayNames.map((day) => `https://schema.org/${day}`),
+        opens: interval.from,
+        closes: interval.to,
+      })),
+    ),
+  availableChannel: {
+    "@type": "ServiceChannel",
+    serviceUrl: CALENDLY_CREATOR_URL,
+    availableLanguage: { "@type": "Language", name: "English" },
+  },
+  potentialAction: {
+    "@type": "ReserveAction",
+    name: `Book a ${DURATION_MINUTES}-minute call`,
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: CALENDLY_CREATOR_URL,
+    },
+    scheduledTime: { "@type": "Schedule", scheduleTimezone: TIMEZONE },
+  },
+};
 
 const website = {
   "@type": "WebSite",
@@ -80,6 +124,7 @@ export const landingGraph = {
   "@graph": [
     organization,
     website,
+    consultation,
     {
       "@type": "FAQPage",
       "@id": `${SITE_URL}/#faq`,
@@ -97,6 +142,7 @@ export const careersGraph = {
   "@graph": [
     organization,
     website,
+    consultation,
     {
       "@type": "BreadcrumbList",
       itemListElement: [

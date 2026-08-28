@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { ApplicationForm, type Field } from "@/components/ApplicationForm";
-import { CalendlyEmbed } from "@/components/CalendlyEmbed";
+import { BookingPanel } from "@/components/BookingPanel";
 import { CALENDLY_CAREERS_URL } from "@/lib/calendly";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -163,9 +163,10 @@ export default function CareersPage() {
               pay works. No cost and no obligation. We reply within 24 hours.
             </p>
             <div className="bookGrid">
-              <CalendlyEmbed
+              <BookingPanel
                 url={CALENDLY_CAREERS_URL}
-                label="Book a call about the role"
+                label="Pick a time"
+                summary="A short call about the role, the hours you want, and how pay works. No cost and no obligation."
               />
               <ApplicationForm
                 id="careers-application"

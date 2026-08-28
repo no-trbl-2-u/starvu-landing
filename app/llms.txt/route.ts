@@ -1,3 +1,5 @@
+import { DURATION_MINUTES, TIMEZONE, hoursSentence, weeklyHours } from "@/lib/availability";
+import { CALENDLY_CAREERS_URL, CALENDLY_CREATOR_URL } from "@/lib/calendly";
 import { FAQ, STEPS, WHO_WE_SIGN } from "@/lib/landing";
 import { JOBS, REQUIREMENTS } from "@/lib/jobs";
 import { AFFILIATION_DISCLAIMER, ORG, absoluteUrl } from "@/lib/site";
@@ -61,6 +63,21 @@ ${REQUIREMENTS.map((r) => `- ${r}`).join("\n")}
 ## Questions
 
 ${FAQ.map(({ q, a }) => `**${q}**\n${a}`).join("\n\n")}
+
+## Booking a call
+
+Both conversations start with a free ${DURATION_MINUTES}-minute video call, booked directly. No cost and no obligation.
+
+- Creators: ${CALENDLY_CREATOR_URL}
+- Job applicants: ${CALENDLY_CAREERS_URL}
+
+Booking hours, in ${TIMEZONE}:
+
+${weeklyHours()
+  .map((range) => `- ${range.days}: ${range.hours}`)
+  .join("\n")}
+
+${hoursSentence()} Calendly converts the times to the visitor's own time zone. Openings are usually available within a few days; exact slots are not listed here because they change with every booking.
 
 ## Contact
 

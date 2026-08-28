@@ -27,22 +27,34 @@ never reach a `NEXT_PUBLIC_*` variable or the client bundle.
 - [x] **Widget themed to the design tokens.** Background, text and primary colours
       are passed as embed params from `lib/calendly.ts`.
 
+- [x] **Booking panel replaces the auto-loading embed.** The widget used to load
+      on mount, putting the only real content — when you can book, how long it
+      takes — inside an iframe, where no crawler attributes it to this page. The
+      panel renders that as HTML and loads Calendly on click.
+- [x] **Hours published as crawlable text** on `/`, `/careers`, `/llms.txt` and
+      in the JSON-LD, from `lib/calendly-availability.json`.
+- [x] **`npm run sync:availability`** regenerates that file from the account, so
+      the published hours have a refresh path rather than being hand-typed.
+- [x] **No third-party script on load.** `assets.calendly.com` no longer appears
+      in the static HTML at all; `lib/calendly-widget.ts` fetches it on first use
+      and is shared by the panel and the form.
+- [x] **`Service` node with `OpeningHoursSpecification`** in both page graphs.
+
 ---
 
 ## Next
 
-### 1. Application form reaches a human — partial
+### 1. Application form reaches a human — partial, #2
 
-Issue #2. The forms currently transmit nothing; the button only flips to a
-"sent" state. The interim fix routes form answers into Calendly as booking
-prefill, so a completed booking carries the applicant's details.
+Done: submit folds the answers into the Calendly booking prefill and opens the
+scheduler, so a completed booking carries the application on the invitee record.
+The untrue "Thanks — we reply within 24 hours" copy is gone.
 
-- [ ] Prefill `name`, `email` and the remaining answers into the widget on submit
-- [ ] Replace the "Application sent" copy, which is untrue today
-- [ ] **Still outstanding:** someone who fills the form and never books is still
-      lost. Only a real submit target closes issue #2.
+- [ ] **Still outstanding:** someone who fills the form and never finishes
+      booking is still lost. The form has no submit target, so nothing is
+      transmitted until #10 exists. Only that closes #2.
 
-### 2. Second event type — blocked on Calendly dashboard
+### 2. Second event type — #9, blocked on Calendly dashboard
 
 The account has exactly one event type (`30min`). Issue #4 asked for two —
 creator bookings and employment calls — and auto-closed on merge without that
@@ -52,7 +64,7 @@ half being done.
       **The API cannot do this**; event type creation is UI-only.
 - [ ] Set `NEXT_PUBLIC_CALENDLY_CAREERS_URL` to it. That is the entire code change.
 
-### 3. Booking notifications — blocked on decisions
+### 3. Booking notifications — #10, blocked on decisions
 
 - [ ] Cloudflare Pages Function receiving `invitee.created` / `invitee.canceled`
 - [ ] Forward to email rather than a database (see *Decisions* below)
@@ -61,38 +73,21 @@ half being done.
 The site is a static export (`output: "export"`), so there are no Next.js API
 routes. This has to be a Pages Function; there is no `functions/` directory yet.
 
-### 4. Calendar SEO — recover what the iframe hides
+### 4. Calendar SEO — done, with one standing chore
 
-An iframe's contents are never attributed to the host page, so every fact inside
-the widget currently belongs to `calendly.com`. Availability splits in two:
+Shipped: the facade panel, hours in `/llms.txt`, and `OpeningHoursSpecification`
+in the JSON-LD. An iframe's contents are never attributed to the host page, so
+everything worth indexing now exists outside it.
 
-| | Example | Changes when | Safe as static HTML |
-|---|---|---|---|
-| Durable | "Mon–Sat 9–6 ET, Sun until 8" | Jesse edits his hours | Yes |
-| Perishable | "Next opening Friday 2pm" | Every booking | No — goes stale |
+Specific open slots are still deliberately **not** published. A built-once "next
+opening Friday 2pm" is wrong by Tuesday, and a stale exact time is a visible
+inaccuracy. The page says "usually openings within a few days" instead.
 
-- [ ] **Facade pattern.** Replace the auto-loading iframe with a crawlable HTML
-      panel (hours, duration, timezone, what the call covers) plus a button that
-      loads the widget on click. Fixes the SEO hole and the third-party
-      performance cost in one change.
-- [ ] **Booking in `/llms.txt`.** The route exists and is generated from `lib/`,
-      but its Contact section lists only two email addresses — an agent reading
-      it cannot tell that Starvu takes calls at all.
-- [ ] **`OpeningHoursSpecification` in the JSON-LD.** No Google rich result
-      exists for service availability, so expect no snippet. The value is for
-      answer engines and LLM crawlers.
-- [ ] Do **not** publish specific open slots as static HTML. A stale exact time
-      is a visible inaccuracy. Use a durable phrasing such as "usually openings
-      within a few days" instead.
+- [ ] **#12 — re-sync the published hours before launch, and whenever they
+      change.** `lib/calendly-availability.json` is a snapshot; it does not
+      update itself.
 
-Current schedule, for reference — no disabled days today:
-
-```
-Sunday             09:00–20:00  America/New_York
-Monday–Saturday    09:00–18:00  America/New_York
-```
-
-### 5. Attribution
+### 5. Attribution — #11
 
 - [ ] UTM params per embed so creator vs. careers bookings are distinguishable
 - [ ] Read back off the invitee record
@@ -134,3 +129,7 @@ alter branding. All dashboard-only.
 - #3 — JobPosting dates are placeholders
 - #4 — Calendly embed (closed by PR #7; second event type still outstanding)
 - #5 — real domain, canonicals off `pages.dev`
+- #9 — create the employment-call event type
+- #10 — Calendly webhook to email
+- #11 — tag bookings with their source page
+- #12 — re-sync published booking hours

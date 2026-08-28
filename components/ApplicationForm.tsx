@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import { withPrefill, type Prefill } from "@/lib/calendly";
+import { openScheduler } from "@/lib/calendly-widget";
 
 export type Field =
   | {
@@ -27,10 +28,6 @@ type Props = {
   note: string;
   /** Scheduling URL the answers are carried into. */
   schedulingUrl: string;
-};
-
-type CalendlyPopup = {
-  initPopupWidget?: (options: { url: string }) => void;
 };
 
 /**
@@ -80,17 +77,11 @@ export function ApplicationForm({ id, fields, note, schedulingUrl }: Props) {
           summarise(fields, new FormData(event.currentTarget)),
         );
 
-        // The popup is the smoother path, but it only exists once widget.js has
-        // loaded. Navigating to the same prefilled URL is the fallback that
-        // always works, so a slow script cannot strand an applicant.
-        const calendly = (window as { Calendly?: CalendlyPopup }).Calendly;
-        if (calendly?.initPopupWidget) {
-          calendly.initPopupWidget({ url });
-          setRedirecting(false);
-        } else {
-          setRedirecting(true);
-          window.location.href = url;
-        }
+        // The widget is fetched on demand now, so there is a beat before the
+        // scheduler appears. openScheduler falls back to navigating to the same
+        // prefilled URL, so a blocked script cannot strand an applicant.
+        setRedirecting(true);
+        void openScheduler(url).finally(() => setRedirecting(false));
       }}
     >
       {fields.map((field) => {

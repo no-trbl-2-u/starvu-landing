@@ -1,7 +1,7 @@
 import { DURATION_MINUTES, TIMEZONE, weeklyHours } from "./availability";
 import { CALENDLY_CREATOR_URL } from "./calendly";
 import { FAQ } from "./landing";
-import { DATE_POSTED, JOBS, REQUIREMENTS, VALID_THROUGH, type Job } from "./jobs";
+import { JOBS, REQUIREMENTS, validThrough, type Job } from "./jobs";
 import { ORG, SITE_URL, absoluteUrl } from "./site";
 
 /**
@@ -103,8 +103,8 @@ const jobPosting = (job: Job) => ({
   },
   title: `${job.title}, ${job.track.toLowerCase()}`,
   description: jobDescriptionHtml(job),
-  datePosted: DATE_POSTED,
-  validThrough: VALID_THROUGH,
+  datePosted: job.datePosted,
+  validThrough: validThrough(job),
   employmentType: [...job.employmentType],
   hiringOrganization: { "@id": ORG_ID },
   // Fully remote: Google requires TELECOMMUTE plus an applicant location

@@ -48,6 +48,11 @@
 
 html {
   scroll-behavior: smooth;
+
+  /* The header is sticky at top: 0, so without this every in-page anchor lands
+     underneath it. Slightly more than the header's own height, for breathing
+     room above the heading. */
+  scroll-padding-top: 80px;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -69,7 +74,14 @@ body {
   font-family: var(--font-archivo), Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-wrap: pretty;
+
+  /* `hidden` here makes body a scroll container, which breaks in-page anchors —
+     the hash changes but nothing moves — and stops `scroll-behavior` on html
+     from applying. `clip` prevents the same horizontal overflow without
+     creating a scroller. The `hidden` line is the fallback for browsers that
+     do not support `clip`; they keep today's behaviour. */
   overflow-x: hidden;
+  overflow-x: clip;
 }
 
 a {

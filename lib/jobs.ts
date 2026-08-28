@@ -21,8 +21,11 @@ export type Job = {
 };
 
 /**
- * ISO date the current listings went live. Google requires `datePosted`, and
- * drops postings whose `validThrough` has passed — bump both when you re-post.
+ * TODO(#3): both dates are placeholders, not real posting dates.
+ *
+ * Google requires `datePosted`, and removes postings once `validThrough` has
+ * passed — so leaving these wrong quietly costs us the Google Jobs channel.
+ * Bump both when re-posting.
  */
 export const DATE_POSTED = "2026-08-01";
 export const VALID_THROUGH = "2027-08-01";

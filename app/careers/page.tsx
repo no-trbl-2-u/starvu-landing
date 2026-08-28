@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 
 import { ApplicationForm, type Field } from "@/components/ApplicationForm";
-import { CalendlySlot } from "@/components/CalendlySlot";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
+import { CALENDLY_CAREERS_URL } from "@/lib/calendly";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -162,7 +163,10 @@ export default function CareersPage() {
               pay works. No cost and no obligation. We reply within 24 hours.
             </p>
             <div className="bookGrid">
-              <CalendlySlot note="Employment call calendar drops in here" />
+              <CalendlyEmbed
+                url={CALENDLY_CAREERS_URL}
+                label="Book a call about the role"
+              />
               <ApplicationForm
                 id="careers-application"
                 fields={FIELDS}

@@ -340,39 +340,31 @@ img {
   align-items: start;
 }
 
-/* Dashed hatched box standing in for the Calendly embed. */
-.embedSlot {
-  border: 1px dashed rgba(220, 189, 120, 0.35);
+/* Calendly inline widget. The widget paints an iframe into __widget; the
+   height is ours to set because Calendly's own sizing only kicks in after
+   widget.js loads. */
+.embed {
   background-color: var(--surface);
-  background-image: repeating-linear-gradient(
-    135deg,
-    rgba(220, 189, 120, 0.05) 0 6px,
-    transparent 6px 14px
-  );
-  min-height: clamp(330px, 50vw, 500px);
+  border: 1px solid var(--rule-gold);
+}
+
+.embed__widget {
+  min-width: 0;
+  height: clamp(660px, 80vh, 760px);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   padding: 28px;
   text-align: center;
 }
 
-.embedSlot__title {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.embedSlot__note {
+/* Shown until widget.js swaps in the iframe, and permanently without JS. */
+.embed__fallback {
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #949eb1;
+  color: var(--gold);
   line-height: 1.8;
 }
 

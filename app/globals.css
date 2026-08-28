@@ -340,32 +340,86 @@ img {
   align-items: start;
 }
 
-/* Calendly inline widget. The widget paints an iframe into __widget; the
-   height is ours to set because Calendly's own sizing only kicks in after
-   widget.js loads. */
-.embed {
+/* Booking panel — the crawlable facade in front of the Calendly widget. The
+   hours and duration are real markup here rather than iframe contents, so they
+   belong to this page. */
+.panel {
   background-color: var(--surface);
   border: 1px solid var(--rule-gold);
-}
-
-.embed__widget {
-  min-width: 0;
-  height: clamp(660px, 80vh, 760px);
+  padding: clamp(24px, 3vw, 36px);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 28px;
-  text-align: center;
+  flex-direction: column;
+  gap: 18px;
+  align-self: start;
 }
 
-/* Shown until widget.js swaps in the iframe, and permanently without JS. */
-.embed__fallback {
+.panel__kicker {
   font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11.5px;
-  letter-spacing: 0.1em;
+  font-size: 11px;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--gold);
-  line-height: 1.8;
+}
+
+.panel__summary {
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.panel__title {
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+  padding-top: 4px;
+  border-top: 1px solid var(--rule);
+}
+
+.panel__hours {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+
+.panel__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+}
+
+.panel__row dt {
+  color: var(--text);
+}
+
+.panel__row dd {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 13px;
+  color: var(--gold-light);
+  text-align: right;
+}
+
+.panel__row dd.is-closed {
+  color: var(--text-faint);
+}
+
+.panel__tz {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-dim);
+}
+
+.panel__tz span {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+}
+
+.panel__cta {
+  margin-top: 4px;
+  text-align: center;
+  text-decoration: none;
 }
 
 .form {

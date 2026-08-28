@@ -32,9 +32,10 @@ type Props = {
  * the browser validates and autofills, and so wiring a submit target later is a
  * one-line change.
  *
- * TODO: post to a real endpoint (route handler or server action). Until then the
- * button only reflects the submitted state, matching the design's behaviour, and
- * applicants are directed to the email addresses in the footer.
+ * TODO(#2): nothing is transmitted yet — the button only reflects the submitted
+ * state, matching the design's behaviour. The site is a static export, so this
+ * needs a Pages Function rather than a server action. Until then applicants only
+ * reach us via the email addresses in the footer.
  */
 export function ApplicationForm({ id, fields, note }: Props) {
   const [sent, setSent] = useState(false);

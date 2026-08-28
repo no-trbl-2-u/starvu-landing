@@ -1,3 +1,5 @@
-name = "starvu-landing"
+# Cloudflare Pages project name — also determines the starvu.pages.dev subdomain.
+# Note this differs from the GitHub repo name (starvu-landing) on purpose.
+name = "starvu"
 pages_build_output_dir = "out"
 compatibility_date = "2026-08-27"

@@ -1,0 +1,87 @@
+/* Hero runs tighter at the bottom than a standard section. */
+.hero {
+  padding-top: clamp(52px, 11vw, 132px);
+  padding-bottom: clamp(44px, 8vw, 100px);
+}
+
+.heroTitle {
+  margin: 0;
+  font-size: clamp(36px, 9.6vw, 98px);
+  line-height: 0.94;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  text-transform: uppercase;
+}
+
+/* Role cards sit on a wider minimum than the landing benefit cards and carry a
+   little more padding, since each holds a full paragraph. */
+.roleGrid {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.roleCard {
+  padding: clamp(26px, 3.6vw, 44px);
+}
+
+.roleTitle {
+  margin: 0 0 8px;
+  font-size: clamp(21px, 4vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--text-bright);
+}
+
+/* "Messaging" / "Customer service" — the track under the shared role title. */
+.roleTrack {
+  margin: 0 0 18px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.roleBody {
+  margin: 0 0 22px;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-soft);
+}
+
+/* Remote · Part-time or full-time · Shift work */
+.roleTerms {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #949eb1;
+  line-height: 2;
+}
+
+/* "No prior industry experience required." — a step down from the hero. */
+.asksHeading {
+  font-size: clamp(26px, 5.2vw, 44px);
+}
+
+.asksEyebrow {
+  margin-bottom: clamp(20px, 3vw, 30px);
+}
+
+.talkTitle {
+  margin: 0 0 clamp(14px, 2.5vw, 20px);
+  font-size: clamp(30px, 7vw, 72px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--text-bright);
+}
+
+.talkLede {
+  margin: 0 0 clamp(34px, 5vw, 60px);
+  max-width: 580px;
+  font-size: clamp(15px, 3.2vw, 18px);
+  line-height: 1.65;
+  color: var(--text-muted);
+}

@@ -1,0 +1,516 @@
+/* ---------------------------------------------------------------------------
+   Design tokens
+   Lifted verbatim from the Starvu design canvas so the palette has one home.
+   --------------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces, darkest to lightest */
+  --bg: #05070d;
+  --bg-alt: #070b15;
+  --surface: #0b1120;
+
+  /* Text, brightest to dimmest */
+  --text: #e8ecf4;
+  --text-bright: #ffffff;
+  --text-muted: #b8c1d2;
+  --text-soft: #a9b3c6;
+  --text-nav: #b6bfd0;
+  --text-dim: #9aa4ba;
+  --text-dimmer: #8f99ab;
+  --text-faint: #7d8798;
+
+  /* Brand gold */
+  --gold: #dcbd78;
+  --gold-light: #f2ddb0;
+  --gold-pale: #f2e2be;
+  --on-gold: #080d18;
+
+  /* Rules and borders */
+  --rule-gold: rgba(220, 189, 120, 0.16);
+  --rule: rgba(232, 236, 244, 0.09);
+  --rule-strong: rgba(232, 236, 244, 0.12);
+  --field-border: rgba(232, 236, 244, 0.16);
+
+  /* The gutter every full-width section shares */
+  --gutter: clamp(18px, 4vw, 56px);
+  --shell: 1200px;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-archivo), Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-wrap: pretty;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--gold-light);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* A single visible focus treatment for every interactive element. */
+:is(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* Skip link: off-screen until focused. */
+.skipLink {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  padding: 12px 20px;
+  background: var(--gold);
+  color: var(--on-gold);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.skipLink:focus {
+  left: 0;
+  color: var(--on-gold);
+}
+
+/* ---------------------------------------------------------------------------
+   Layout primitives
+   --------------------------------------------------------------------------- */
+
+/* Centred content column, used by every section and both bars. */
+.shell {
+  max-width: var(--shell);
+  margin: 0 auto;
+  padding-inline: var(--gutter);
+}
+
+/* Standard vertical rhythm for a content section. */
+.section {
+  padding-block: clamp(56px, 10vw, 130px);
+}
+
+/* Sections on the slightly lighter panel, separated by a gold hairline. */
+.band {
+  border-top: 1px solid var(--rule-gold);
+  background: var(--bg-alt);
+}
+
+/* Two-column split that collapses to one on narrow screens. */
+.split {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: clamp(30px, 5vw, 80px);
+}
+
+/* ---------------------------------------------------------------------------
+   Type
+   --------------------------------------------------------------------------- */
+
+/* The small mono uppercase label that opens most sections. */
+.eyebrow {
+  margin: 0;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(9.5px, 2.1vw, 12px);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.eyebrow--spaced {
+  margin-bottom: clamp(30px, 5vw, 56px);
+}
+
+/* Hero kicker: same family, wider tracking, doubled leading. */
+.kicker {
+  margin: 0 0 clamp(28px, 5vw, 48px);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: clamp(9.5px, 2.2vw, 12px);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  line-height: 2;
+}
+
+/* The gold interpunct that separates clauses in mono lines. */
+.dot {
+  color: var(--gold);
+}
+
+/* Top line of a hero: silver gradient clipped to the glyphs. */
+.gradientLine {
+  display: block;
+  background-image: linear-gradient(178deg, #ffffff 0%, #e6ebf4 45%, #a9b4c6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.goldLine {
+  display: block;
+  color: var(--gold);
+}
+
+.lede {
+  margin: clamp(28px, 4.5vw, 44px) 0 0;
+  max-width: 650px;
+  font-size: clamp(16px, 3.6vw, 21px);
+  line-height: 1.62;
+  color: var(--text-muted);
+}
+
+.lede strong {
+  color: var(--text-bright);
+  font-weight: 600;
+}
+
+.sectionHeading {
+  margin: 0;
+  font-size: clamp(26px, 5.2vw, 46px);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--text-bright);
+}
+
+/* ---------------------------------------------------------------------------
+   Buttons
+   --------------------------------------------------------------------------- */
+
+.btnRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: clamp(32px, 5vw, 52px);
+}
+
+.btn {
+  display: inline-block;
+  padding: 18px 40px;
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.btn--primary {
+  background: var(--gold);
+  color: var(--on-gold);
+  border: none;
+  font-weight: 700;
+}
+
+.btn--primary:hover {
+  background: var(--gold-light);
+  color: var(--on-gold);
+}
+
+.btn--ghost {
+  border: 1px solid rgba(232, 236, 244, 0.28);
+  color: var(--text);
+  font-weight: 600;
+}
+
+.btn--ghost:hover {
+  border-color: var(--text-bright);
+  color: var(--text);
+}
+
+/* ---------------------------------------------------------------------------
+   Cards and lists
+   --------------------------------------------------------------------------- */
+
+.cardGrid {
+  display: grid;
+  gap: clamp(14px, 2vw, 26px);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: clamp(26px, 3.6vw, 40px);
+  transition: border-color 0.15s;
+}
+
+.card:hover {
+  border-color: rgba(220, 189, 120, 0.4);
+}
+
+/* The gold mono index above a card or role heading. */
+.cardIndex {
+  margin: 0 0 20px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-size: clamp(19px, 3.4vw, 23px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-bright);
+}
+
+.cardBody {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text-soft);
+}
+
+/* Starred requirement list with hairline separators. */
+.checklist {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.checklist li {
+  display: flex;
+  gap: 14px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 18px;
+}
+
+.checklist li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.checklist li::before {
+  content: "★";
+  color: var(--gold);
+  flex: none;
+}
+
+/* ---------------------------------------------------------------------------
+   Booking block — placeholder panel and form
+   --------------------------------------------------------------------------- */
+
+.bookGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  gap: clamp(20px, 3vw, 44px);
+  align-items: start;
+}
+
+/* Dashed hatched box standing in for the Calendly embed. */
+.embedSlot {
+  border: 1px dashed rgba(220, 189, 120, 0.35);
+  background-color: var(--surface);
+  background-image: repeating-linear-gradient(
+    135deg,
+    rgba(220, 189, 120, 0.05) 0 6px,
+    transparent 6px 14px
+  );
+  min-height: clamp(330px, 50vw, 500px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 28px;
+  text-align: center;
+}
+
+.embedSlot__title {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.embedSlot__note {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #949eb1;
+  line-height: 1.8;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field__label {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.field input,
+.field select {
+  background: var(--surface);
+  border: 1px solid var(--field-border);
+  color: var(--text);
+  padding: 15px 16px;
+  /* 16px keeps iOS Safari from zooming the viewport on focus. */
+  font-size: 16px;
+  font-family: inherit;
+  border-radius: 0;
+}
+
+.field input::placeholder {
+  color: var(--text-dimmer);
+}
+
+/* Nudge the submit button off the last field, matching the design. */
+.form .btn {
+  margin-top: 6px;
+}
+
+/* Submitted state keeps the gold fill rather than dimming to a disabled grey. */
+.form .btn:disabled {
+  opacity: 1;
+  cursor: default;
+}
+
+.formNote {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text-faint);
+}
+
+/* The live region stays mounted and empty so assistive tech is already watching
+   it when the confirmation lands — hence the wrapper, which owns the spacing
+   instead of the form's flex gap. */
+.formFoot {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* An empty <p> generates no line box, so this costs nothing until it fills. */
+.formStatus {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--gold);
+}
+
+/* ---------------------------------------------------------------------------
+   FAQ
+   --------------------------------------------------------------------------- */
+
+.faq {
+  max-width: 860px;
+}
+
+.faq details {
+  border-top: 1px solid var(--rule-strong);
+}
+
+.faq details:last-child {
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.faq summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: clamp(20px, 3vw, 28px) 0;
+  font-size: clamp(17px, 3.4vw, 21px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-bright);
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+/* The + rotates into an × when the row opens. */
+.faq__plus {
+  flex: none;
+  color: var(--gold);
+  font-size: 20px;
+  font-weight: 400;
+  transition: transform 0.2s;
+}
+
+.faq details[open] .faq__plus {
+  transform: rotate(45deg);
+}
+
+.faq__answer {
+  margin: 0;
+  padding: 0 0 clamp(22px, 3vw, 30px);
+  max-width: 660px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--text-soft);
+}
+
+/* ---------------------------------------------------------------------------
+   Legal
+   --------------------------------------------------------------------------- */
+
+.legal {
+  margin: clamp(28px, 4vw, 40px) 0 0;
+  max-width: 960px;
+  font-size: 12.5px;
+  line-height: 1.85;
+  color: var(--text-dimmer);
+}

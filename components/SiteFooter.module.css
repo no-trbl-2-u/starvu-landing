@@ -1,0 +1,44 @@
+.footer {
+  border-top: 1px solid var(--rule-gold);
+}
+
+/* The landing page ends on the base surface, so its footer lifts to the panel
+   tone; the careers page already sits on the panel and keeps the base. */
+.footer--panel {
+  background: var(--bg-alt);
+}
+
+.inner {
+  padding-top: clamp(48px, 7vw, 84px);
+  padding-bottom: clamp(36px, 5vw, 56px);
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-bottom: clamp(32px, 5vw, 50px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.logo {
+  width: clamp(160px, 30vw, 240px);
+  height: auto;
+  display: block;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+/* Non-link entries in the contact stack (handle, location). */
+.contact span {
+  color: var(--text-faint);
+}

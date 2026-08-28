@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 
 import { ApplicationForm, type Field } from "@/components/ApplicationForm";
-import { CalendlySlot } from "@/components/CalendlySlot";
+import { CalendlyEmbed } from "@/components/CalendlyEmbed";
+import { CALENDLY_CREATOR_URL } from "@/lib/calendly";
 import { JsonLd } from "@/components/JsonLd";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -222,7 +223,10 @@ export default function HomePage() {
               and we reply within 24 hours.
             </p>
             <div className="bookGrid">
-              <CalendlySlot note="Booking calendar drops in here" />
+              <CalendlyEmbed
+                url={CALENDLY_CREATOR_URL}
+                label="Book a free 1:1 call with a manager"
+              />
               <ApplicationForm
                 id="creator-application"
                 fields={FIELDS}

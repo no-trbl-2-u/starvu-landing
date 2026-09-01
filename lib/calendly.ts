@@ -27,9 +27,9 @@ export const CALENDLY_CAREERS_URL =
 const THEME = new URLSearchParams({
   hide_gdpr_banner: "1",
   hide_landing_page_details: "1",
-  background_color: "0b1120", // --surface
-  text_color: "e8ecf4", // --text
-  primary_color: "dcbd78", // --gold
+  background_color: "ffffff", // --surface
+  text_color: "2a211c", // --text
+  primary_color: "7e5d41", // --accent-ink
 }).toString();
 
 /** Applies the site theme to a scheduling URL. */

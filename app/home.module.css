@@ -1,53 +1,83 @@
+/* ---- Hero ----------------------------------------------------------------- */
+
+/* Centred rather than left-ruled: the lockup is symmetrical, and a centred
+   column reads calmer than the old flush-left block. */
 .hero {
-  padding-top: clamp(52px, 11vw, 140px);
-  padding-bottom: clamp(48px, 8vw, 110px);
+  position: relative;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: clamp(46px, 8vw, 96px);
+  padding-bottom: clamp(52px, 9vw, 118px);
+}
+
+/* A soft champagne wash behind the hero, fading into the cream field. Purely
+   decorative and pointer-transparent, so it never intercepts a click. */
+.heroGlow {
+  position: absolute;
+  inset: -120px 0 auto;
+  height: 640px;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    58% 62% at 50% 24%,
+    rgba(228, 210, 191, 0.62) 0%,
+    rgba(243, 231, 219, 0.32) 45%,
+    rgba(251, 246, 240, 0) 100%
+  );
 }
 
 .heroLogo {
-  width: clamp(220px, 42vw, 420px);
+  width: clamp(132px, 22vw, 200px);
   height: auto;
   display: block;
-  margin-bottom: clamp(22px, 3.5vw, 34px);
+  margin-bottom: clamp(24px, 4vw, 40px);
 }
 
 .heroTitle {
   margin: 0;
-  font-size: clamp(40px, 11.5vw, 116px);
-  line-height: 0.92;
-  font-weight: 800;
-  letter-spacing: -0.025em;
-  text-transform: uppercase;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(46px, 10.5vw, 108px);
+  line-height: 1.02;
+  font-weight: 300;
+  letter-spacing: -0.015em;
 }
 
 .heroLede {
-  max-width: 620px;
+  max-width: 600px;
+  margin-inline: auto;
 }
 
 /* ---- Earnings band -------------------------------------------------------- */
 
-/* Closed on both sides by a gold hairline, unlike the other panels. */
+/* The one figure on the page. It sits on the deepest sand tone, ruled top and
+   bottom, and is set in the display serif rather than a shouting sans — the
+   number is the point, not the volume. */
 .earnings {
-  border-top: 1px solid var(--rule-gold);
-  border-bottom: 1px solid var(--rule-gold);
-  background: var(--bg-alt);
+  border-top: 1px solid var(--rule-accent);
+  border-bottom: 1px solid var(--rule-accent);
+  background: var(--sand);
   text-align: center;
 }
 
 .earningsInner {
-  padding-block: clamp(52px, 9vw, 110px);
+  padding-block: clamp(52px, 9vw, 104px);
 }
 
 .earningsEyebrow {
   margin-bottom: clamp(16px, 3vw, 26px);
+  color: var(--text-muted);
 }
 
 .earningsFigure {
   margin: 0;
-  font-size: clamp(58px, 18vw, 190px);
-  line-height: 0.88;
-  font-weight: 800;
-  letter-spacing: -0.035em;
-  color: var(--gold);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(56px, 15vw, 156px);
+  line-height: 1;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  color: var(--text-bright);
 }
 
 /* Hairline that fades out at both ends. */
@@ -56,46 +86,57 @@
   height: 1px;
   background: linear-gradient(
     90deg,
-    rgba(220, 189, 120, 0),
-    var(--gold),
-    rgba(220, 189, 120, 0)
+    rgba(138, 115, 100, 0),
+    var(--accent-deep),
+    rgba(138, 115, 100, 0)
   );
-  margin: clamp(26px, 4vw, 44px) auto;
+  margin: clamp(26px, 4vw, 42px) auto;
 }
 
 .earningsNote {
   margin: 0;
-  font-size: clamp(14px, 3vw, 17px);
-  line-height: 1.6;
-  color: #c3cbda;
+  font-size: clamp(14px, 3vw, 16px);
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
 /* ---- Benefits ------------------------------------------------------------- */
 
+/* Four cards, so an explicit 2x2 rather than auto-fit: at this shell width
+   auto-fit lands on three columns and orphans the fourth. */
 .benefitGrid {
-  grid-template-columns: repeat(auto-fit, minmax(268px, 1fr));
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .benefitGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 /* ---- 90-day trial band ---------------------------------------------------- */
 
-/* The one inverted section: gold field, dark ink. */
+/* The one inverted section, and the warmest surface on the page: a champagne
+   field carrying the same espresso ink as everywhere else. */
 .trial {
-  background: var(--gold);
-  color: var(--on-gold);
+  background: linear-gradient(160deg, var(--accent-soft) 0%, #efdfcd 100%);
+  color: var(--text-bright);
+  text-align: center;
 }
 
 .trialEyebrow {
-  margin-bottom: clamp(22px, 4vw, 40px);
-  color: rgba(8, 13, 24, 0.62);
+  margin-bottom: clamp(22px, 4vw, 36px);
+  color: var(--accent-ink);
 }
 
 .trialHeading {
-  margin: 0;
-  max-width: 1000px;
-  font-size: clamp(28px, 6.2vw, 62px);
-  line-height: 1.1;
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  margin: 0 auto;
+  max-width: 900px;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(26px, 5vw, 50px);
+  line-height: 1.24;
+  font-weight: 300;
+  letter-spacing: -0.005em;
 }
 
 /* ---- How it works --------------------------------------------------------- */
@@ -112,23 +153,24 @@
 
 /* Steps are ruled rather than boxed, so they read as a sequence. */
 .step {
-  border-top: 1px solid rgba(220, 189, 120, 0.4);
+  border-top: 1px solid var(--rule-accent);
   padding-top: 22px;
 }
 
 .stepIndex {
   margin: 0 0 16px;
-  font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 11px;
-  letter-spacing: 0.18em;
-  color: var(--gold);
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
 }
 
 .stepTitle {
   margin: 0 0 12px;
-  font-size: clamp(20px, 3.6vw, 26px);
-  font-weight: 700;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(22px, 3.6vw, 29px);
+  font-weight: 500;
   color: var(--text-bright);
 }
 
@@ -136,24 +178,24 @@
 
 /* Sits on the base surface directly under the FAQ panel. */
 .book {
-  border-top: 1px solid var(--rule-gold);
+  border-top: 1px solid var(--rule-accent);
 }
 
 .bookTitle {
   margin: 0 0 clamp(14px, 2.5vw, 20px);
-  font-size: clamp(32px, 7.4vw, 76px);
-  line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(36px, 7vw, 72px);
+  line-height: 1.05;
+  font-weight: 300;
+  letter-spacing: -0.015em;
   color: var(--text-bright);
 }
 
 .bookLede {
-  margin: 0 0 clamp(34px, 5vw, 64px);
+  margin: 0 0 clamp(34px, 5vw, 60px);
   max-width: 560px;
   font-size: clamp(15px, 3.2vw, 18px);
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--text-muted);
 }
 
@@ -163,4 +205,10 @@
 
 .faqEyebrow {
   margin-bottom: clamp(26px, 4vw, 48px);
+}
+
+/* The hero column is centred, so its button row has to centre its own items
+   rather than inherit the flush-left default. */
+.heroActions {
+  justify-content: center;
 }

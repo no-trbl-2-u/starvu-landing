@@ -35,10 +35,10 @@ export function SiteFooter({ page }: { page: "landing" | "careers" }) {
       <div className={`shell ${styles.inner}`}>
         <div className={styles.top}>
           <Image
-            src={ORG.logo}
+            src={ORG.lockup}
             alt={ORG.name}
-            width={ORG.logoWidth}
-            height={ORG.logoHeight}
+            width={ORG.lockupWidth}
+            height={ORG.lockupHeight}
             className={styles.logo}
           />
           <div className={styles.contact}>

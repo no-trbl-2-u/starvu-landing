@@ -29,9 +29,23 @@ export const ORG = {
   talentEmail: "talent@starvu.com",
   careersEmail: "careers@starvu.com",
   social: "@starvu",
+
+  /**
+   * Three cuts of the same mark, all champagne on transparent so they sit on
+   * any of the warm surfaces without a white box behind them.
+   *
+   * `logo` is the stacked lockup the brand supplies (monogram over wordmark),
+   * used large in the hero and as the organisation logo in JSON-LD. `lockup`
+   * is the horizontal cut, which is the one that stays legible in the 34px
+   * header bar. `icon` is the bare SV monogram, used as the favicon.
+   */
   logo: "/assets/starvu-logo.png",
-  logoWidth: 484,
-  logoHeight: 202,
+  logoWidth: 975,
+  logoHeight: 900,
+  lockup: "/assets/starvu-lockup.png",
+  lockupWidth: 1144,
+  lockupHeight: 240,
+  icon: "/assets/starvu-mark.png",
   description:
     "Starvu is an independent talent management company for solo creators and couples on OnlyFans and premium content platforms, handling promotion, chatting, scheduling and brand deals.",
 } as const;

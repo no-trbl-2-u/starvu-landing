@@ -78,19 +78,20 @@ export default function CareersPage() {
 
       <main id="main">
         <section className={`shell ${styles.hero}`}>
+          <div className={styles.heroGlow} aria-hidden="true" />
           <p className="kicker">
             Careers at {ORG.name} <span className="dot">·</span> Remote{" "}
             <span className="dot">·</span> Part-time &amp; full-time
           </p>
           <h1 className={styles.heroTitle}>
-            <span className="gradientLine">Now staffing</span>
-            <span className="goldLine">
-              Client engagement
+            <span className="displayLine">Now staffing</span>
+            <span className="accentLine">
+              client engagement
               <br />
               specialists
             </span>
           </h1>
-          <p className="lede">
+          <p className={`lede ${styles.heroLede}`}>
             Behind every creator on our roster is a team handling the
             conversations. We are hiring{" "}
             <strong>client engagement specialists</strong> to run that side of
@@ -98,7 +99,7 @@ export default function CareersPage() {
             their subscribers, part-time or full-time, on shifts that cover the
             clock.
           </p>
-          <div className="btnRow">
+          <div className={`btnRow ${styles.heroActions}`}>
             <a href="#talk" className="btn btn--primary">
               Book a call
             </a>

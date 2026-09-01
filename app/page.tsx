@@ -77,6 +77,7 @@ export default function HomePage() {
 
       <main id="main">
         <section id="top" className={`shell ${styles.hero}`}>
+          <div className={styles.heroGlow} aria-hidden="true" />
           <Image
             src={ORG.logo}
             alt={ORG.name}
@@ -90,9 +91,9 @@ export default function HomePage() {
             premium content <span className="dot">·</span> {ORG.region}
           </p>
           <h1 className={styles.heroTitle}>
-            <span className="gradientLine">Now signing</span>
-            <span className="goldLine">
-              Solo creators
+            <span className="displayLine">Now signing</span>
+            <span className="accentLine">
+              solo creators
               <br />
               &amp; couples
             </span>
@@ -102,7 +103,7 @@ export default function HomePage() {
             <strong>promotion, chatting, scheduling, and brand deals</strong>,
             handled by a team that answers to you.
           </p>
-          <div className="btnRow">
+          <div className={`btnRow ${styles.heroActions}`}>
             <a href="#book" className="btn btn--primary">
               Book a call
             </a>

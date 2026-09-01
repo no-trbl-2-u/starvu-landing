@@ -51,11 +51,11 @@ export function SiteHeader({ page }: Props) {
             aria-label={`${ORG.name} home`}
           >
             <Image
-              src={ORG.logo}
+              src={ORG.lockup}
               // The link already carries the accessible name.
               alt=""
-              width={ORG.logoWidth}
-              height={ORG.logoHeight}
+              width={ORG.lockupWidth}
+              height={ORG.lockupHeight}
               className={styles.logo}
               priority
             />
